@@ -5,8 +5,7 @@
 	"version": "0.1.0",
 	"title": "My Posts Block",
 	"category": "widgets",
-	"icon": "smiley",
-	"description": "Example block scaffolded with Create Block tool.",
+	"description": "Block for display posts of a specific category",
 	"example": {},
 	"supports": {
 		"html": false
