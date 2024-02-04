@@ -14,6 +14,10 @@
     "category": {
       "type": "integer",
       "default": 0
+    },
+    "numberOfPosts": {
+      "type": "number",
+      "default": 4
     }
   },
   "textdomain": "my-posts-block",

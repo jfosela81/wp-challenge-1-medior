@@ -72,6 +72,9 @@ function Edit({
   const {
     category
   } = attributes;
+  const {
+    numberOfPosts
+  } = attributes;
   const [options, setOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)(null);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
@@ -84,10 +87,9 @@ function Edit({
         };
       });
       categories = [{
-        'label': 'Selecciona...',
+        'label': 'Select...',
         'value': 0
       }, ...categories];
-      //console.log('Array cat', categories);
       setOptions(categories);
     });
   }, []);
@@ -103,12 +105,22 @@ function Edit({
         category: parseInt(value)
       });
     }
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    label: "Number of posts to show",
+    value: numberOfPosts,
+    type: "number",
+    onChange: value => {
+      setAttributes({
+        numberOfPosts: parseInt(value)
+      });
+    }
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_6___default()), {
     block: _block_json__WEBPACK_IMPORTED_MODULE_7__.name,
     attributes: {
-      category
+      category,
+      numberOfPosts
     }
   })));
 }
@@ -332,7 +344,7 @@ module.exports = window["wp"]["serverSideRender"];
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/my-posts-block","version":"0.1.0","title":"My Posts Block","category":"widgets","description":"Block for display posts of a specific category","example":{},"supports":{"html":false},"attributes":{"category":{"type":"integer","default":0}},"textdomain":"my-posts-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/my-posts-block","version":"0.1.0","title":"My Posts Block","category":"widgets","description":"Block for display posts of a specific category","example":{},"supports":{"html":false},"attributes":{"category":{"type":"integer","default":0},"numberOfPosts":{"type":"number","default":4}},"textdomain":"my-posts-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

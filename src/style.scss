@@ -5,8 +5,14 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-my-posts-block {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+
+.posts-related {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	article {
+		h2 {
+			margin-top: 0;
+			font-size: 22px;
+		}
+	}	
 }

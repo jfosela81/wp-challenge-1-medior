@@ -36,11 +36,15 @@ add_action( 'init', 'my_posts_block_my_posts_block_block_init' );
 
 function render_posts_by_category( $attributes ) {
 
-	$cat_id      = $attributes['category'];
+	$cat_id          = $attributes['category'];
+	$number_of_posts = $attributes['numberOfPosts'] ? $attributes['numberOfPosts'] : 2;
+
+	//echo '<pre>';var_dump($attributes);die;
+
 	if ( $cat_id ) {
 		$args = array(
 			'cat'            => $cat_id,
-			'posts_per_page' => 4,
+			'posts_per_page' => $number_of_posts,
 		);
 	} else {
 		$args = array();
@@ -58,7 +62,20 @@ function render_posts_by_category( $attributes ) {
 				$posts_query->the_post();
 				?>
 				<article>
-					<?php the_title( '<h2>', '</h2>' ); ?>
+					<a href="<?php the_permalink(); ?>">
+						<?php
+						if ( has_post_thumbnail() ) {
+							the_post_thumbnail( 'thumbnail' );
+						} else {
+							?>
+							<img src="https://placehold.jp/150x150.png" />
+							<?php
+						}
+						?>
+					</a>
+					<a href="<?php the_permalink(); ?>">
+						<?php the_title( '<h2>', '</h2>' ); ?>
+					</a>
 				</article>
 				<?php
 			}

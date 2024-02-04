@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 
 import apiFetch from '@wordpress/api-fetch';
 import { useState, useEffect } from '@wordpress/element';
@@ -40,6 +40,7 @@ import './editor.scss';
 export default function Edit( { attributes, setAttributes } ) {
 
 	const { category } = attributes;
+	const { numberOfPosts } = attributes;
 	const [options, setOptions]	= useState( null );
 
 	useEffect( () => {
@@ -51,8 +52,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						'value' : single_cat.id
 					}
 				});
-				categories = [ { 'label': 'Selecciona...', 'value': 0 }, ...categories ];
-				//console.log('Array cat', categories);
+				categories = [ { 'label': 'Select...', 'value': 0 }, ...categories ];
 				setOptions( categories );
 			}
 		)
@@ -69,13 +69,20 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ (value) => {
 							setAttributes( { category: parseInt( value ) } )
 						}} />
+					<TextControl 
+						label="Number of posts to show"
+						value={numberOfPosts}
+						type="number"
+						onChange={ (value) => {
+							setAttributes( { numberOfPosts: parseInt( value ) }  )
+						}} />
 				</PanelBody>
 			</InspectorControls>
 
 			<div { ...useBlockProps() }>
 				<ServerSideRender 
 					block={metadata.name}
-					attributes={{category}}
+					attributes={{ category, numberOfPosts }}
 				/>
 			</div>
 		</>
