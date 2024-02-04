@@ -24,7 +24,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
+/* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/server-side-render */ "@wordpress/server-side-render");
+/* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
 
 /**
  * Retrieves the translation of text.
@@ -39,6 +42,8 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
+
+
 
 
 
@@ -68,17 +73,21 @@ function Edit({
     category
   } = attributes;
   const [options, setOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)(null);
-  console.log('Categor', attributes);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
       path: '/wp/v2/categories'
     }).then(result => {
-      const categories = result.map(single_cat => {
+      let categories = result.map(single_cat => {
         return {
           'label': single_cat.name,
           'value': single_cat.id
         };
       });
+      categories = [{
+        'label': 'Selecciona...',
+        'value': 0
+      }, ...categories];
+      //console.log('Array cat', categories);
       setOptions(categories);
     });
   }, []);
@@ -90,14 +99,18 @@ function Edit({
     value: category,
     options: options,
     onChange: value => {
-      console.log('valor', value);
       setAttributes({
         category: parseInt(value)
       });
     }
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
-  }, "Esto es el render"));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_6___default()), {
+    block: _block_json__WEBPACK_IMPORTED_MODULE_7__.name,
+    attributes: {
+      category
+    }
+  })));
 }
 
 /***/ }),
@@ -303,13 +316,23 @@ module.exports = window["wp"]["i18n"];
 
 /***/ }),
 
+/***/ "@wordpress/server-side-render":
+/*!******************************************!*\
+  !*** external ["wp","serverSideRender"] ***!
+  \******************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["serverSideRender"];
+
+/***/ }),
+
 /***/ "./src/block.json":
 /*!************************!*\
   !*** ./src/block.json ***!
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/my-posts-block","version":"0.1.0","title":"My Posts Block","category":"widgets","description":"Block for display posts of a specific category","example":{},"supports":{"html":false},"attributes":{"category":{"type":"integer"}},"textdomain":"my-posts-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/my-posts-block","version":"0.1.0","title":"My Posts Block","category":"widgets","description":"Block for display posts of a specific category","example":{},"supports":{"html":false},"attributes":{"category":{"type":"integer","default":0}},"textdomain":"my-posts-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

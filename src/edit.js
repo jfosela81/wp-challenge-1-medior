@@ -17,6 +17,10 @@ import { PanelBody, SelectControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { useState, useEffect } from '@wordpress/element';
 
+import ServerSideRender from '@wordpress/server-side-render';
+import metadata from './block.json';
+
+
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
@@ -37,19 +41,18 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const { category } = attributes;
 	const [options, setOptions]	= useState( null );
-	
-	console.log( 'Categor', attributes );
 
 	useEffect( () => {
 		apiFetch( { path: '/wp/v2/categories' } ).then(
 			( result ) => {
-				const categories = result.map( ( single_cat ) => {
+				let categories = result.map( ( single_cat ) => {
 					return {
 						'label' : single_cat.name,
 						'value' : single_cat.id
 					}
 				});
-
+				categories = [ { 'label': 'Selecciona...', 'value': 0 }, ...categories ];
+				//console.log('Array cat', categories);
 				setOptions( categories );
 			}
 		)
@@ -64,13 +67,16 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={category}
 						options={options}
 						onChange={ (value) => {
-							console.log('valor', value);
 							setAttributes( { category: parseInt( value ) } )
 						}} />
 				</PanelBody>
 			</InspectorControls>
+
 			<div { ...useBlockProps() }>
-				Esto es el render
+				<ServerSideRender 
+					block={metadata.name}
+					attributes={{category}}
+				/>
 			</div>
 		</>
 	);
